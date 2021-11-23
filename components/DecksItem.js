@@ -2,17 +2,20 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { initialData } from "../utils/data";
 
-function DecksItem({ item }) {
+function DecksItem({ navigation, item }) {
   const { title, questions } = initialData[item];
 
   return (
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity
+      style={styles.button}
+      onPress={() => navigation.navigate("Deck", { title })}
+    >
       <Text style={{ fontSize: 24 }}>{title}</Text>
       {!!questions ? (
         <Text style={styles.extra}>
           {`${questions.length} ${
             questions.length > 1 ? "cards" : "card"
-          } added`}
+          }`}
         </Text>
       ) : (
         <Text style={styles.extra}>No cards added yet.</Text>
