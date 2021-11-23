@@ -1,16 +1,18 @@
 import * as React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StatusBar, StyleSheet, SafeAreaView } from "react-native";
+import Decks from "./components/Decks";
 
 export default function App() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Universal React with Expo</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <StatusBar style="auto" animated={true} backgroundColor={"#75654c"} />
+      <Decks />
+    </SafeAreaView>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+});
