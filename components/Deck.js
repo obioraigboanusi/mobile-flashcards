@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { initialData } from "../utils/data";
 
 const Deck = ({ navigation, route }) => {
-  const title = route.params.title;
-  const questions = initialData[title].questions;
+  const deck = route.params.title;
+  const questions = initialData[deck].questions;
   return (
     <View style={styles.container}>
       <View style={{ marginBottom: 50 }}>
-        <Text style={{ fontSize: 40, textAlign: "center" }}>{title}</Text>
+        <Text style={{ fontSize: 40, textAlign: "center" }}>{deck}</Text>
         {!!questions ? (
           <Text style={styles.extra}>
             {`${questions.length} ${questions.length > 1 ? "cards" : "card"}`}
@@ -26,12 +26,18 @@ const Deck = ({ navigation, route }) => {
         </View>
       )}
       <View>
-        <TouchableOpacity style={[styles.addBtn, styles.btn]}>
+        <TouchableOpacity
+          style={[styles.addBtn, styles.btn]}
+          onPress={() => navigation.navigate("AddCard", { deck })}
+        >
           <Text style={styles.addBtnText}>Add Card</Text>
         </TouchableOpacity>
 
         {questions.length > 0 && (
-          <TouchableOpacity style={[styles.startBtn, styles.btn]}>
+          <TouchableOpacity
+            style={[styles.startBtn, styles.btn]}
+            onPress={() => navigation.navigate("Quiz", { deck })}
+          >
             <Text style={styles.startBtnText}>Start Quiz</Text>
           </TouchableOpacity>
         )}
@@ -75,7 +81,6 @@ const styles = StyleSheet.create({
   extra: {
     color: "gray",
     marginTop: 3,
-    fontStyle: "italic",
     fontSize: 24,
     textAlign: "center",
   },
