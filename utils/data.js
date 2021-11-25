@@ -22,28 +22,4 @@ export const initialData = {
       },
     ],
   },
-  Backend: {
-    title: "Backend",
-    questions: [
-      {
-        question: "What is a closure?",
-        answer:
-          "The combination of a function and the lexical environment within which that function was declared.",
-      },
-    ],
-  },
-  AWS: {
-    title: "AWS",
-    questions: [
-      {
-        question: "What is a closure?",
-        answer:
-          "The combination of a function and the lexical environment within which that function was declared.",
-      },
-    ],
-  },
-  AWS: {
-    title: "AWS",
-    questions: [],
-  },
 };
