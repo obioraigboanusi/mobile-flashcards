@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { connect } from "react-redux";
+import { handleAddNewDeck } from "../actions";
 
-const NewDeck = () => {
+const NewDeck = ({ navigation, dispatch }) => {
   const [value, setValue] = useState("");
+  const [error, setError] = useState("");
   const handleSubmit = () => {
     if (value) {
-      alert("Created");
+      dispatch(handleAddNewDeck(value)).then((res) => {
+        setValue("");
+        setError("");
+        navigation.navigate("Decks");
+      });
+    } else {
+      setError("Enter a title for your deck");
     }
   };
   return (
@@ -23,6 +32,11 @@ const NewDeck = () => {
           placeholder="Enter deck title"
           onChangeText={(value) => setValue(value)}
         />
+        {!!error && !value && (
+          <View>
+            <Text style={{ color: "red", fontSize: 16 }}>{error}</Text>
+          </View>
+        )}
       </View>
       <View style={styles.submitCont}>
         <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
@@ -54,7 +68,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 6,
     width: "50%",
-    maxWidth: "200",
     alignSelf: "center",
   },
   input: {
@@ -68,4 +81,4 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
-export default NewDeck;
+export default connect()(NewDeck);

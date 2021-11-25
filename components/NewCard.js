@@ -9,17 +9,24 @@ import {
   StyleSheet,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { connect } from "react-redux";
+import { handleAddDeckCard } from "../actions";
 
-function NewCard() {
+function NewCard({ dispatch, route }) {
+  console.log(route);
+  const title = route.params.deck;
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const [error, setError] = useState(false);
   const addCard = () => {
     if (question && answer) {
-      alert("Card added");
-      setAnswer("");
-      setQuestion("");
+      dispatch(handleAddDeckCard({ title, question, answer })).then(() => {
+        setAnswer("");
+        setQuestion("");
+        setError(false);
+      });
     } else {
-      alert("Please fill all fields");
+      setError(true);
     }
   };
   return (
@@ -36,6 +43,11 @@ function NewCard() {
             placeholder="Question"
             onChangeText={(value) => setQuestion(value)}
           />
+          {error && question === "" && (
+            <Text style={{ color: "red", fontSize: 16 }}>
+              Question is requied
+            </Text>
+          )}
         </View>
         <View>
           <Text style={styles.labelText}>Answer</Text>
@@ -45,6 +57,11 @@ function NewCard() {
             placeholder="Answer"
             onChangeText={(value) => setAnswer(value)}
           />
+          {error && answer === "" && (
+            <Text style={{ color: "red", fontSize: 16 }}>
+              Answer is requied
+            </Text>
+          )}
         </View>
         <View style={styles.submitCont}>
           <TouchableOpacity onPress={addCard} style={styles.submitBtn}>
@@ -98,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewCard;
+export default connect()(NewCard);

@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { initialData } from "../utils/data";
+import {  Text, TouchableOpacity, StyleSheet } from "react-native";
+import { connect } from "react-redux";
 
-function DecksItem({ navigation, item }) {
-  const { title, questions } = initialData[item];
+function DecksItem({ navigation, title, deck }) {
+  const { questions } = deck;
 
   return (
     <TouchableOpacity
@@ -13,9 +13,7 @@ function DecksItem({ navigation, item }) {
       <Text style={{ fontSize: 24 }}>{title}</Text>
       {!!questions ? (
         <Text style={styles.extra}>
-          {`${questions.length} ${
-            questions.length > 1 ? "cards" : "card"
-          }`}
+          {`${questions.length} ${questions.length > 1 ? "cards" : "card"}`}
         </Text>
       ) : (
         <Text style={styles.extra}>No cards added yet.</Text>
@@ -39,5 +37,9 @@ const styles = StyleSheet.create({
   },
   extra: { color: "gray", marginTop: 12, fontStyle: "italic" },
 });
-
-export default DecksItem;
+function mapStateToProps(decks, { title }) {
+  return {
+    deck: decks[title],
+  };
+}
+export default connect(mapStateToProps)(DecksItem);

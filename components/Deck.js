@@ -1,10 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { initialData } from "../utils/data";
-
-const Deck = ({ navigation, route }) => {
+import { connect } from "react-redux";
+const Deck = ({ navigation, route, decks }) => {
   const deck = route.params.title;
-  const questions = initialData[deck].questions;
+  const questions = decks[deck].questions;
   return (
     <View style={styles.container}>
       <View style={{ marginBottom: 50 }}>
@@ -18,11 +17,11 @@ const Deck = ({ navigation, route }) => {
         )}
       </View>
 
-      {!questions.length > 0 && (
+      {!questions?.length > 0 && (
         <View>
           <Text style={{ marginTop: 15, marginBottom: 15, fontSize: 16 }}>
             You haven't added any card yet.
-          </Text>{" "}
+          </Text>
         </View>
       )}
       <View>
@@ -33,7 +32,7 @@ const Deck = ({ navigation, route }) => {
           <Text style={styles.addBtnText}>Add Card</Text>
         </TouchableOpacity>
 
-        {questions.length > 0 && (
+        {questions?.length > 0 && (
           <TouchableOpacity
             style={[styles.startBtn, styles.btn]}
             onPress={() => navigation.navigate("Quiz", { deck })}
@@ -85,5 +84,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+function mapStateToProps(decks) {
+  return {
+    decks,
+  };
+}
 
-export default Deck;
+export default connect(mapStateToProps)(Deck);
