@@ -3,6 +3,10 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { handleAnswerQuestion } from "../actions";
+import {
+  clearLocalNotifications,
+  setLocalNotifications,
+} from "../utils/helpers";
 
 const Quiz = ({ navigation, route, decks, dispatch }) => {
   const [flipped, setFlipped] = useState(false);
@@ -44,6 +48,14 @@ const Quiz = ({ navigation, route, decks, dispatch }) => {
   const markIncorrect = () => {
     answerQuestion(false);
   };
+  const handleCheckResult = async () => {
+    navigation.navigate("Result", { deck: currentDeck });
+    await clearLocalNotifications()
+      .then(setLocalNotifications)
+      .catch((err) => {
+        console.warn("set quiz notification:", err);
+      });
+  };
   return (
     <View style={styles.container}>
       <ProgressBar
@@ -79,7 +91,7 @@ const Quiz = ({ navigation, route, decks, dispatch }) => {
       )} */}
 
       {!!currentQuestion?.isAnswered ? (
-        currentIndex < questionsLenght -1 ? (
+        currentIndex < questionsLenght - 1 ? (
           <View style={styles.prevNext}>
             <TouchableOpacity style={styles.moves} onPress={playPrev}>
               <Text style={styles.movesBtn}>Prev</Text>
@@ -91,9 +103,7 @@ const Quiz = ({ navigation, route, decks, dispatch }) => {
         ) : (
           <View>
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Result", { deck: currentDeck })
-              }
+              onPress={handleCheckResult}
               style={[styles.btn, styles.incorrect]}
             >
               <Text style={styles.btnText}>Check Result</Text>

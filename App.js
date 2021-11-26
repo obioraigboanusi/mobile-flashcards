@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Deck from "./components/Deck";
@@ -10,10 +10,14 @@ import { createStore } from "redux";
 import reducers from "./reducers";
 import middelewares from "./middlewares";
 import Result from "./components/Result";
+import { setLocalNotifications } from "./utils/helpers";
 
 function App() {
   const Stack = createNativeStackNavigator();
   const store = createStore(reducers, middelewares);
+  useEffect(() => {
+    setLocalNotifications();
+  }, []);
   return (
     <Provider store={store}>
       <NavigationContainer>
