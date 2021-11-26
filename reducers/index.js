@@ -2,7 +2,6 @@ import {
   RECEIVE_DECKS,
   ADD_DECK,
   ADD_CARD,
-  DELETE_DECK,
   ANSWER_QUESTION,
 } from "../actions/index";
 import { formatAnsweredQuestion, formatDeck } from "../utils/helpers";

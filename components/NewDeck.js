@@ -4,16 +4,24 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { handleAddNewDeck } from "../actions";
 
-const NewDeck = ({ navigation, dispatch }) => {
+const NewDeck = ({ navigation, dispatch, decks }) => {
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
   const handleSubmit = () => {
     if (value) {
-      dispatch(handleAddNewDeck(value)).then((res) => {
-        setValue("");
-        setError("");
-        navigation.navigate("Decks");
-      });
+      if (
+        Object.keys(decks).some(
+          (item) => item.toLowerCase().trim() === value.toLowerCase().trim()
+        )
+      ) {
+        alert("This deck aleady exist.");
+      } else {
+        dispatch(handleAddNewDeck(value)).then((res) => {
+          setValue("");
+          setError("");
+          navigation.navigate("Decks");
+        });
+      }
     } else {
       setError("Enter a title for your deck");
     }
@@ -81,4 +89,4 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
-export default connect()(NewDeck);
+export default connect((decks) => ({ decks }))(NewDeck);

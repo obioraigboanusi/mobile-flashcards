@@ -78,8 +78,8 @@ const Quiz = ({ navigation, route, decks, dispatch }) => {
         </View>
       )} */}
 
-      {currentQuestion?.isAnswered ? (
-        currentIndex !== questionsLenght - 1 ? (
+      {!!currentQuestion?.isAnswered ? (
+        currentIndex < questionsLenght -1 ? (
           <View style={styles.prevNext}>
             <TouchableOpacity style={styles.moves} onPress={playPrev}>
               <Text style={styles.movesBtn}>Prev</Text>

@@ -12,19 +12,30 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { handleAddDeckCard } from "../actions";
 
-function NewCard({ dispatch, route }) {
+function NewCard({ dispatch, route, decks }) {
   console.log(route);
   const title = route.params.deck;
+  const deck = decks[title];
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [error, setError] = useState(false);
+
   const addCard = () => {
     if (question && answer) {
-      dispatch(handleAddDeckCard({ title, question, answer })).then(() => {
-        setAnswer("");
-        setQuestion("");
-        setError(false);
-      });
+      if (
+        deck.questions.some(
+          (item) =>
+            item.question.toLowerCase().trim() === question.toLowerCase().trim()
+        )
+      ) {
+        alert("This question already exist");
+      } else {
+        dispatch(handleAddDeckCard({ title, question, answer })).then(() => {
+          setAnswer("");
+          setQuestion("");
+          setError(false);
+        });
+      }
     } else {
       setError(true);
     }
@@ -115,4 +126,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect()(NewCard);
+export default connect((decks) => ({ decks }))(NewCard);
