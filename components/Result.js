@@ -13,7 +13,7 @@ const Result = ({ navigation, route, decks }) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.congrats}>Congrats for completing this Quiz.</Text>
+        <Text style={styles.congrats}>{(correct / total) * 100}%</Text>
         <View>
           <View style={styles.table}>
             <Text style={styles.tableTxt}>Attempted Qs</Text>
@@ -53,10 +53,12 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   congrats: {
-    fontSize: 28,
+    fontSize: 36,
+    fontWeight: "700",
     textAlign: "center",
     color: "blue",
-    marginBottom: 30,
+    marginVertical: 50,
+
   },
   content: {
     fontSize: 24,
